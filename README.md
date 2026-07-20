@@ -1,38 +1,54 @@
 # #7 vision-serving-fastapi
 
-**Status:** scaffold
+**Status:** benchmarked
 
 **Proves:** servir modelo CV.
 
-**Benchmark target:** throughput_rps, p95_latency_ms.
+## Benchmark Result
 
-**Stack:** python, fastapi, onnxruntime, prometheus, k6, docker.
+| Metric | Value | Unit |
+|:---|---:|---:|
+| throughput_rps | 21.65 | req/s |
+| p95_latency_ms | 631.75 | ms |
 
-## Next milestone
-
-Implement the smallest Docker-runnable version and produce the first JSON benchmark under enchmarks/results/.
+*Run `python -m vision_serving benchmark` to produce a fresh result.*
 
 ## Run
 
-`ash
+```bash
 docker build -t vision-serving-fastapi .
-docker run --rm vision-serving-fastapi
-`
+docker run --rm -p 8000:8000 vision-serving-fastapi
+```
+
+## API
+
+- `GET /health` — health check
+- `POST /predict` — upload an image file, receive prediction JSON
+- `GET /metrics` — Prometheus metrics
 
 ## Benchmark
 
-`ash
-docker run --rm vision-serving-fastapi benchmark
-`
+```bash
+# Local benchmark (no Docker)
+python -m vision_serving benchmark
 
-| Metric | Value | Unit |
-|---|---:|---|
-| throughput_rps, p95_latency_ms | pending | pending |
+# k6 benchmark via Docker
+# Start the server first, then:
+docker run --rm --network host -v $(pwd)/k6:/k6 grafana/k6 run /k6/benchmark.js
+```
+
+## Stack
+
+python, fastapi, onnxruntime, prometheus, k6, docker
 
 ## Architecture
 
-Defined in sdd/spec.md before implementation.
+Modular monolith — `domain/` has pure dataclasses, `app/` wires FastAPI + Prometheus, `benchmark/` runs load tests.
 
 ## References
 
 See REFERENCES.md.
+
+## License
+
+MIT

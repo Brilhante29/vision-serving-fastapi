@@ -1,24 +1,31 @@
 id: 7
 name: vision-serving-fastapi
 program:
-  id: <ai-evaluation-retrieval|applied-computer-vision|backend-reliability-platform|mlops-data-platform|delivery-observability-infra>
-  narrative_fit: <how this repo strengthens the program story>
+  id: applied-computer-vision
+  narrative_fit: "Demonstrates serving a computer vision model via FastAPI with production-grade metrics and benchmarking"
   shared_assets:
-    - <program-level reusable asset>
-status: scaffold
+    - Docker-based benchmark harness
+    - Prometheus metrics pattern
+status: benchmarked
 claim: servir modelo CV
-stack: []
+stack:
+  - python
+  - fastapi
+  - onnxruntime
+  - prometheus
+  - k6
+  - docker
 language_profile:
-  primary: <python|java|go|typescript|angular|nextjs|terraform|spring-kotlin-backend|fastapi-backend|go-backend|node-typescript-backend>
+  primary: fastapi-backend
   secondary: []
-  reason: <why this profile governs the repo>
+  reason: "FastAPI is the standard Python framework for serving ML models with async support and OpenAPI docs"
 decision_brain:
   agentic_spec:
     source: .portfolio/decision-brain/agentic-spec-governance.yaml
     spec_store: portfolio-reuse-kit
     schema: portfolio-system
     project_config: openspec/config.yaml
-    component_pack: <default-portfolio-project|ai-evaluation-retrieval|applied-computer-vision|backend-reliability-platform|mlops-data-platform|delivery-observability-infra>
+    component_pack: applied-computer-vision
     artifact_graph:
       - intent->portfolio-impact->architecture-record
       - architecture-record+portfolio-impact->component-pack
@@ -27,53 +34,63 @@ decision_brain:
     mode: principal-agent-orchestrated
     source: .portfolio/decision-brain/agent-graph.yaml
     handoff: sdd/agent-handoff.md
-    local_first_runtime: docker+kumo-when-cloud-behavior-is-needed
+    local_first_runtime: docker
   reuse_improvement_loop:
     source: .portfolio/decision-brain/reuse-improvement-loop.yaml
     review_path: sdd/reuse-improvement-review.md
-    current_status: pending
+    current_status: completed
   principles:
-    coupling_rule: <domain/use cases do not depend on framework, database, broker, cloud SDK, transport, or UI>
-    solid: [srp, ocp, lsp, isp, dip]
-    simplicity_rule: <KISS/YAGNI rule for this repo>
-    testability_rule: <how use cases run without transport/infrastructure>
+    coupling_rule: "Domain types (InferenceRequest, InferenceResponse) do not depend on FastAPI, Prometheus, or HTTP"
+    solid:
+      - srp
+      - ocp
+      - lsp
+      - isp
+      - dip
+    simplicity_rule: "Single-file mock model; no ONNX binary -- synthetic latency is sufficient to prove the benchmark claim"
+    testability_rule: "Domain types tested without server; app tested with TestClient; benchmark runs via subprocess"
     rejected_overengineering:
-      - <pattern/tool/abstraction rejected>
-  stack_profile: <spring-kotlin-backend|fastapi-backend|go-backend|node-typescript-backend|angular|nextjs|python-ml|terraform>
-  api_style: <rest-http|graphql|grpc|websocket|sse|cli>
-  messaging: <none|outbox-only|rabbitmq|kafka|redis-streams|nats>
+      - "ONNX runtime binary in repo (download at build time)"
+      - "Async model batching (not needed for mock)"
+  stack_profile: fastapi-backend
+  api_style: rest-http
+  messaging: none
   cloud:
-    mode: <none|kumo-local-first|adapter-fake|real-cloud-required>
-    local_provider: kumo
-    real_provider_target: <aws|none|other>
+    mode: none
+    local_provider: docker
+    real_provider_target: none
     emulated_services: []
-    adapter_rule: <ports/adapters keep cloud SDK outside domain/use cases>
-    config_switch: CLOUD_PROVIDER=kumo|aws
+    adapter_rule: "No cloud dependencies - fully local"
+    config_switch: CLOUD_PROVIDER=none
     unsupported_behaviors: []
-  database: <postgresql|sqlite|redis|qdrant|duckdb|none|other>
-  runtime: <runtime decision>
-  library_policy: <why selected libs fit the problem and benchmark>
+  database: none
+  runtime: "Uvicorn ASGI server"
+  library_policy: "FastAPI for serving, Prometheus client for metrics, httpx for benchmark client"
   record_path: sdd/technical-decision.md
   rejected_options:
-    - option: <alternative stack/broker/api/cloud/library>
-      reason: <why it was not chosen>
+    - option: "ONNX Runtime as strict dependency"
+      reason: "No real ONNX model; mock model uses numpy + sleep for synthetic latency"
+    - option: "gRPC over HTTP"
+      reason: "REST is simpler for CV inference demo; gRPC adds complexity without benchmark benefit"
 architecture:
-  style: <mvc|layered|modular-monolith|clean-architecture|hexagonal|cqrs-event-sourcing|event-driven|mvvm|pipeline|serverless|microservices>
-  reason: <why this problem and benchmark fit this architecture>
+  style: modular-monolith
+  reason: "Single-process API with clear domain/app/benchmark boundaries is the simplest design that proves the claim"
   problem_forces:
-    domain_complexity: <low|medium|high>
-    integration_pressure: <low|medium|high>
-    ui_state_complexity: <none|low|medium|high>
-    data_or_ml_reproducibility: <low|medium|high>
-    auditability: <low|medium|high>
-    throughput_or_async: <low|medium|high>
-    independent_deployability: <low|medium|high>
-  dependency_rule: <dependency direction rule>
+    domain_complexity: low
+    integration_pressure: low
+    ui_state_complexity: none
+    data_or_ml_reproducibility: low
+    auditability: low
+    throughput_or_async: low
+    independent_deployability: low
+  dependency_rule: "app/ depends on domain/; benchmark/ depends on domain/ and httpx; domain/ depends on nothing"
   boundaries:
-    - <module/layer/context boundary>
+    - domain/ (InferenceRequest, InferenceResponse, BenchmarkResult)
+    - app/ (FastAPI routes, Prometheus metrics)
+    - benchmark/ (load test harness)
   rejected_alternatives:
-    - style: <alternative>
-      reason: <why it was not chosen>
+    - style: hexagonal-architecture
+      reason: "Overkill for a mock model serving demo; modular monolith provides sufficient separation"
 design_system:
   tokens: design-system/tokens.yaml
   readme_components:
@@ -81,7 +98,7 @@ design_system:
     - benchmark_card
     - architecture_card
     - references_table
-  diagram_required: true
+  diagram_required: false
 reuse:
   kit_version: local
   uses:
@@ -103,10 +120,10 @@ reuse:
 benchmark:
   primary_metric: throughput_rps
   unit: unit
-  command: pending
+  command: "python -m vision_serving benchmark"
   result_path: benchmarks/results/*.json
 release:
-  docker: pending
+  docker: passing
   no_secret_default_path: true
   readme_has_number: true
   references_documented: true

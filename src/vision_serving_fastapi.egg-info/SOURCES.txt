@@ -1,0 +1,17 @@
+LICENSE
+README.md
+pyproject.toml
+src/vision_serving/__init__.py
+src/vision_serving/__main__.py
+src/vision_serving/app.py
+src/vision_serving/benchmark.py
+src/vision_serving/cli.py
+src/vision_serving/domain.py
+src/vision_serving/model.py
+src/vision_serving_fastapi.egg-info/PKG-INFO
+src/vision_serving_fastapi.egg-info/SOURCES.txt
+src/vision_serving_fastapi.egg-info/dependency_links.txt
+src/vision_serving_fastapi.egg-info/requires.txt
+src/vision_serving_fastapi.egg-info/top_level.txt
+tests/test_app.py
+tests/test_domain.py

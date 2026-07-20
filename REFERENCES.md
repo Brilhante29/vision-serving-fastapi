@@ -2,6 +2,11 @@
 
 | Reference | License | Used for | Copied code? |
 |---|---|---|---|
-| fastapi, onnxruntime, k6 | pending | architecture/tooling/benchmark reference | no |
+| FastAPI (tiangolo/fastapi) | MIT | Web framework for serving predictions | No |
+| Prometheus Python Client (prometheus/client_python) | Apache 2.0 | Request count and latency metrics | No |
+| httpx (encode/httpx) | BSD-3-Clause | Async HTTP benchmark client | No |
+| k6 (grafana/k6) | AGPL-3.0 | Load testing script | No |
+| numpy | BSD-3-Clause | Image array manipulation | No |
+| uvicorn (encode/uvicorn) | BSD-3-Clause | ASGI server | No |
 
-Implementation, fixtures, benchmark scripts and reported results must be project-specific.
+Implementation, fixtures, benchmark scripts and reported results are project-specific.
