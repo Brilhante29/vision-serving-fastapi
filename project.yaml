@@ -121,7 +121,7 @@ benchmark:
   primary_metric: throughput_rps
   unit: unit
   command: "python -m vision_serving benchmark"
-  result_path: benchmarks/results/*.json
+  result_path: benchmarks/results/benchmark.json
 release:
   docker: passing
   no_secret_default_path: true
