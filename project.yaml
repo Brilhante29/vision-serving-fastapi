@@ -6,7 +6,7 @@ program:
   shared_assets:
     - Docker-based benchmark harness
     - Prometheus metrics pattern
-status: implemented
+status: benchmarked
 claim: servir modelo CV
 stack:
   - python

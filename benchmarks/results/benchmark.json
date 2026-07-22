@@ -1,0 +1,9 @@
+{
+  "project": "vision-serving-fastapi",
+  "metric": "throughput_rps",
+  "value": 21.65,
+  "p95_latency_ms": 631.75,
+  "total_requests": 100,
+  "duration_seconds": 4.62,
+  "errors": 0
+}
