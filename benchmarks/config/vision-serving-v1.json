@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "yolo-http-serving-v1",
+  "workload_version": "synthetic-rectangle-png-v1",
+  "model_sha256": "41598b005401dab39969719bf0678b55415121911fa72c110b21b75bab9c2e96",
+  "requests": 20,
+  "warmup_requests": 3,
+  "concurrency": 1,
+  "comparability_key": "vision-serving:yolo26n:cpu:http:20x1"
+}

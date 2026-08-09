@@ -1,28 +1,25 @@
 from __future__ import annotations
 
-import time
-from dataclasses import dataclass, field
-from typing import List
+from dataclasses import dataclass
 
 
-@dataclass
-class InferenceRequest:
-    image_bytes: bytes
-    timestamp: float = field(default_factory=time.time)
-
-
-@dataclass
+@dataclass(frozen=True)
 class InferenceResponse:
     class_id: int
     class_name: str
     confidence: float
     latency_ms: float
+    model_sha256: str
 
 
-@dataclass
+@dataclass(frozen=True)
 class BenchmarkResult:
     throughput_rps: float
     p95_latency_ms: float
     total_requests: int
+    warmup_requests: int
+    concurrency: int
     duration_seconds: float
-    errors: int = 0
+    errors: int
+    latency_samples_ms: tuple[float, ...]
+    model_sha256: str

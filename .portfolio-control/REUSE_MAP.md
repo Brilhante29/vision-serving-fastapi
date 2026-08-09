@@ -1,25 +1,23 @@
-# Reuse Map: #<id> <project-name>
+# Reuse Map: #7 vision-serving-fastapi
 
 ## Kit Inputs
 
 | Concern | Source of truth | Project use |
 |---|---|---|
-| Agent skills | `.codex/skills/` and `.claude/skills/` | select by problem and language |
-| Architecture | `decision-brain/` | record the chosen shape in SDD |
-| Stack and libraries | `.portfolio/decision-brain/` | justify against the benchmark |
-| Local-first cloud | `.portfolio/decision-brain/cloud-matrix.yaml` | keep provider ports replaceable |
-| API style | `decision-brain/api-style-matrix.yaml` | REST, GraphQL, gRPC, or events by need |
-| Messaging | `decision-brain/messaging-matrix.yaml` | Kafka/RabbitMQ only with a measured reason |
-| Benchmark contract | `contracts/benchmark-result.schema.json` | emit machine-readable evidence |
+| Agent graph | `.portfolio/decision-brain/agent-graph.yaml` | architecture, stack, benchmark and release sequence |
+| Architecture | `.portfolio/architecture/decision-matrix.yaml` | select modular monolith from problem forces |
+| Python profiles | `.portfolio/language-profiles/` | FastAPI and computer-vision conventions |
+| Artifact contract | `.portfolio/contracts/vision-model-artifact.schema.json` | verify producer checkpoint before load |
+| Benchmark contract | `benchmarks/publication-spec.json` | bind source, OCI image, workload and raw evidence |
 
 ## Project Delta
 
-List only what this project adds to the kit. If a pattern will be useful in another repository, patch the kit and link the change here instead of hiding it in project code.
-
 | Delta | Why it is project-specific or reusable | Action |
 |---|---|---|
-| _pending_ | _pending_ | `patch_now`, `backlog`, or `reject` |
+| checkpoint manifest and SHA gate | reusable between model producers and consumers | `patch_now` in kit publication guidance |
+| real HTTP image benchmark | candidate; only one serving project proves it today | keep local until second use |
+| Ultralytics adapter and image limits | tied to this model bundle and API | reject from kit |
 
 ## Coupling Rule
 
-Domain code must not depend on infrastructure adapters, providers, brokers, HTTP frameworks, or model vendors. Dependencies point inward through stable ports. Reuse is accepted only when it reduces duplication without making the problem less clear.
+FastAPI and Ultralytics sit at composition edges. HTTP tests may inject a contract-compatible model; production must validate the immutable bundle before native framework load.

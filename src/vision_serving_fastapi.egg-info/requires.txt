@@ -1,9 +1,0 @@
-fastapi>=0.100
-uvicorn[standard]>=0.23
-numpy>=1.24
-prometheus-client>=0.17
-httpx>=0.24
-
-[test]
-pytest>=7.4
-httpx>=0.24

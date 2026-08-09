@@ -2,20 +2,20 @@
 
 ## Identity
 
-- **Program:** <program>
-- **Status:** scaffold
-- **Proves:** servir modelo CV
-- **Primary benchmark:** `throughput_rps`
+- **Program:** applied-computer-vision
+- **Status:** benchmarked; V2 publication pending
+- **Proves:** verified YOLO checkpoint delivery through real FastAPI inference
+- **Primary benchmark:** `throughput_rps`; secondary `p95_latency_ms`
 
 ## Evidence Map
 
 | Evidence | Location | State |
 |---|---|---|
-| Specification | `sdd/spec.md` | required |
-| Architecture decision | `sdd/architecture-decision.md` | required |
-| Benchmark plan | `sdd/benchmark-plan.md` | required |
-| Benchmark result | `benchmarks/results/` | pending |
-| OpenSpec verification | `openspec/artifacts/verification.md` | required |
-| Reuse review | `sdd/reuse-improvement-review.md` | required |
-
-This file is the project-level inventory. Update it whenever a new proof artifact, reusable component, or architectural decision appears.
+| Specification | `sdd/spec.md` | complete |
+| Architecture decision | `sdd/architecture-decision.md` | complete |
+| Benchmark plan | `sdd/benchmark-plan.md` | complete |
+| Raw benchmark result | `benchmarks/results/benchmark.json` | measured |
+| Publication evidence | `benchmarks/publication/vision-serving-v2.json` | pending source-image run |
+| OpenSpec verification | `openspec/artifacts/verification.md` | source gates complete |
+| Reuse review | `sdd/reuse-improvement-review.md` | complete |
+| Model bundle | `models/best.pt`, `models/model-manifest.json` | SHA-256 verified |

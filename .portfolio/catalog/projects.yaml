@@ -44,10 +44,10 @@ projects:
   - id: 7
     name: vision-serving-fastapi
     domain: model-serving
-    stack: [python, fastapi, onnxruntime, prometheus, k6, docker]
-    proves: servir modelo CV
+    stack: [python, fastapi, ultralytics, pytorch-cpu, prometheus, httpx, docker]
+    proves: servir um checkpoint YOLO verificado por HTTP real
     benchmark: throughput_rps, p95_latency_ms
-    reuse_from: [fastapi, onnxruntime, k6]
+    reuse_from: [yolo-training-pipeline, fastapi, ultralytics, prometheus]
   - id: 8
     name: embeddings-benchmark
     domain: retrieval

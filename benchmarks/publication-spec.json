@@ -1,0 +1,16 @@
+{
+  "project": "vision-serving-fastapi",
+  "benchmark_id": "yolo-http-serving-v1",
+  "primary_metric": "throughput_rps",
+  "v1_path": "benchmarks/results/benchmark.json",
+  "v2_path": "benchmarks/publication/vision-serving-v2.json",
+  "config_path": "benchmarks/config/vision-serving-v1.json",
+  "fixture_path": "models",
+  "lock_path": "requirements-runtime.lock",
+  "repeat": 1,
+  "measured_iterations": 20,
+  "warmup_iterations": 3,
+  "concurrency": 1,
+  "comparability_key": "vision-serving:yolo26n:cpu:http:20x1",
+  "readme_values": ["45.553", "28.662", "41598b005401"]
+}

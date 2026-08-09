@@ -9,4 +9,4 @@
 - [x] License exists.
 - [x] No empty directories used as proof.
 - [x] No API key required for the default path.
-- [x] Post angle written in README.
+- [x] README contains a post-ready claim, number and scope limitation.

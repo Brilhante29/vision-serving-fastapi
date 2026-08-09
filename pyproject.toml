@@ -1,25 +1,21 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools==80.9.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "vision-serving-fastapi"
-version = "0.1.0"
-description = "CV model serving API with FastAPI + ONNX Runtime"
-requires-python = ">=3.10"
+version = "0.2.0"
+description = "FastAPI serving and load benchmark for a provenance-checked YOLO artifact."
+requires-python = "==3.12.*"
 dependencies = [
-    "fastapi>=0.100",
-    "uvicorn[standard]>=0.23",
-    "numpy>=1.24",
-    "prometheus-client>=0.17",
-    "httpx>=0.24",
-    "python-multipart>=0.0.6",
-]
-
-[project.optional-dependencies]
-test = [
-    "pytest>=7.4",
-    "httpx>=0.24",
+  "fastapi==0.116.1",
+  "httpx==0.28.1",
+  "numpy==2.4.4",
+  "pillow==12.2.0",
+  "prometheus-client==0.22.1",
+  "python-multipart==0.0.20",
+  "ultralytics==8.4.96",
+  "uvicorn==0.35.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -27,3 +23,5 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q -p no:cacheprovider"

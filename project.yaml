@@ -2,34 +2,27 @@ id: 7
 name: vision-serving-fastapi
 program:
   id: applied-computer-vision
-  narrative_fit: "Demonstrates serving a computer vision model via FastAPI with production-grade metrics and benchmarking"
+  narrative_fit: Consumes the checkpoint contract produced by #1 and proves verified CPU model serving through HTTP and Prometheus.
   shared_assets:
-    - Docker-based benchmark harness
-    - Prometheus metrics pattern
+    - vision model artifact schema
+    - checkpoint SHA-256 contract
+    - warmed per-image inference protocol
+    - HTTP throughput and p95 benchmark
 status: benchmarked
-claim: servir modelo CV
+claim: Loads a provenance-checked YOLO checkpoint and measures real FastAPI inference throughput without network or credentials.
 stack:
-  - python
-  - fastapi
-  - onnxruntime
-  - prometheus
-  - k6
+  - python-3.12.13
+  - fastapi-0.116.1
+  - ultralytics-8.4.96
+  - pytorch-2.13.0-cpu
+  - prometheus-client-0.22.1
+  - httpx-0.28.1
   - docker
 language_profile:
   primary: fastapi-backend
-  secondary: []
-  reason: "FastAPI is the standard Python framework for serving ML models with async support and OpenAPI docs"
+  secondary: [python-ml]
+  reason: FastAPI owns HTTP while the native Ultralytics adapter consumes the artifact emitted by the training repository.
 decision_brain:
-  agentic_spec:
-    source: .portfolio/decision-brain/agentic-spec-governance.yaml
-    spec_store: portfolio-reuse-kit
-    schema: portfolio-system
-    project_config: openspec/config.yaml
-    component_pack: applied-computer-vision
-    artifact_graph:
-      - intent->portfolio-impact->architecture-record
-      - architecture-record+portfolio-impact->component-pack
-      - component-pack->reuse-delta->benchmark-proof->tasks->verification
   agent_graph:
     mode: principal-agent-orchestrated
     source: .portfolio/decision-brain/agent-graph.yaml
@@ -38,20 +31,13 @@ decision_brain:
   reuse_improvement_loop:
     source: .portfolio/decision-brain/reuse-improvement-loop.yaml
     review_path: sdd/reuse-improvement-review.md
-    current_status: completed
+    current_status: artifact-contract-reused
   principles:
-    coupling_rule: "Domain types (InferenceRequest, InferenceResponse) do not depend on FastAPI, Prometheus, or HTTP"
-    solid:
-      - srp
-      - ocp
-      - lsp
-      - isp
-      - dip
-    simplicity_rule: "Single-file mock model; no ONNX binary -- synthetic latency is sufficient to prove the benchmark claim"
-    testability_rule: "Domain types tested without server; app tested with TestClient; benchmark runs via subprocess"
-    rejected_overengineering:
-      - "ONNX runtime binary in repo (download at build time)"
-      - "Async model batching (not needed for mock)"
+    coupling_rule: HTTP and metrics depend on the model prediction contract; checkpoint verification and Ultralytics loading remain in the adapter.
+    solid: [srp, ocp, lsp, isp, dip]
+    simplicity_rule: One model, one process, three endpoints, and one measured CPU profile.
+    testability_rule: Unit tests inject a fake model; Docker alone proves the real checkpoint and framework integration.
+    rejected_overengineering: [grpc, kafka, rabbitmq, redis, database, cloud, dynamic-batching]
   stack_profile: fastapi-backend
   api_style: rest-http
   messaging: none
@@ -59,71 +45,43 @@ decision_brain:
     mode: none
     local_provider: docker
     real_provider_target: none
-    emulated_services: []
-    adapter_rule: "No cloud dependencies - fully local"
-    config_switch: CLOUD_PROVIDER=none
-    unsupported_behaviors: []
+    adapter_rule: No cloud behavior exists; Kumo becomes relevant only if an object-storage contract is introduced.
   database: none
-  runtime: "Uvicorn ASGI server"
-  library_policy: "FastAPI for serving, Prometheus client for metrics, httpx for benchmark client"
+  runtime: Non-root FastAPI and Ultralytics CPU container with no runtime network.
+  library_policy: Use FastAPI for HTTP, Prometheus client for wire-compatible metrics, Httpx for measured requests, and the exact Ultralytics version that produced the checkpoint.
   record_path: sdd/technical-decision.md
-  rejected_options:
-    - option: "ONNX Runtime as strict dependency"
-      reason: "No real ONNX model; mock model uses numpy + sleep for synthetic latency"
-    - option: "gRPC over HTTP"
-      reason: "REST is simpler for CV inference demo; gRPC adds complexity without benchmark benefit"
 architecture:
   style: modular-monolith
-  reason: "Single-process API with clear domain/app/benchmark boundaries is the simplest design that proves the claim"
-  problem_forces:
-    domain_complexity: low
-    integration_pressure: low
-    ui_state_complexity: none
-    data_or_ml_reproducibility: low
-    auditability: low
-    throughput_or_async: low
-    independent_deployability: low
-  dependency_rule: "app/ depends on domain/; benchmark/ depends on domain/ and httpx; domain/ depends on nothing"
+  reason: One deployment owns model startup, bounded image decoding, synchronous CPU inference, telemetry, and benchmark execution.
+  dependency_rule: Transport composes a model contract; tests replace it without importing or executing Ultralytics.
   boundaries:
-    - domain/ (InferenceRequest, InferenceResponse, BenchmarkResult)
-    - app/ (FastAPI routes, Prometheus metrics)
-    - benchmark/ (load test harness)
-  rejected_alternatives:
-    - style: hexagonal-architecture
-      reason: "Overkill for a mock model serving demo; modular monolith provides sufficient separation"
+    - checkpoint manifest and SHA-256 gate
+    - Ultralytics inference adapter
+    - FastAPI transport and bounded decoder
+    - Prometheus telemetry
+    - HTTP load benchmark
+model_artifact:
+  role: consumer
+  producer: Brilhante29/yolo-training-pipeline
+  schema_version: 1
+  manifest_path: models/model-manifest.json
+  checkpoint_path: models/best.pt
+  checkpoint_sha256: 41598b005401dab39969719bf0678b55415121911fa72c110b21b75bab9c2e96
 design_system:
-  tokens: design-system/tokens.yaml
-  readme_components:
-    - readme_header
-    - benchmark_card
-    - architecture_card
-    - references_table
-  diagram_required: false
+  tokens: .portfolio/design-system/tokens.yaml
+  readme_components: [readme_header, benchmark_card, architecture_card, references_table]
+  diagram_required: true
 reuse:
   kit_version: local
-  uses:
-    - catalog
-    - programs
-    - proficiency-map
-    - component-packs
-    - openspec-schema
-    - decision-brain
-    - agent-graph
-    - reuse-improvement-loop
-    - architecture
-    - language-profiles
-    - design-system
-    - sdd
-    - harness
-    - templates
-    - skills
+  uses: [programs, decision-brain, architecture, fastapi-backend, python-computer-vision, design-system, sdd, benchmark-contract, skills]
 benchmark:
   primary_metric: throughput_rps
-  unit: unit
-  command: "python -m vision_serving benchmark"
+  unit: req/s
+  command: docker run --rm --network none vision-serving-fastapi benchmark --num-requests 20 --concurrency 1 --warmup-requests 3 --output /tmp/benchmark.json
   result_path: benchmarks/results/benchmark.json
+  evidence_status: current
 release:
-  docker: passing
+  docker: docker run --rm -p 8000:8000 vision-serving-fastapi
   no_secret_default_path: true
   readme_has_number: true
   references_documented: true

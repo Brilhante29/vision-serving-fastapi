@@ -1,0 +1,49 @@
+{
+  "checkpoint": {
+    "bytes": 5333317,
+    "file": "best.pt",
+    "sha256": "41598b005401dab39969719bf0678b55415121911fa72c110b21b75bab9c2e96"
+  },
+  "classes": [
+    {
+      "id": 0,
+      "name": "warm_rectangle"
+    },
+    {
+      "id": 1,
+      "name": "cool_ellipse"
+    }
+  ],
+  "format": "ultralytics-pt",
+  "framework": {
+    "name": "ultralytics",
+    "version": "8.4.96"
+  },
+  "input": {
+    "batch": 1,
+    "channels": 3,
+    "color_space": "RGB",
+    "dtype": "uint8",
+    "height": 160,
+    "width": 160
+  },
+  "metrics": {
+    "map50": 0.008863,
+    "map50_95": 0.00242,
+    "precision": 0.003299,
+    "recall": 0.95
+  },
+  "model": {
+    "architecture": "yolo26n.yaml",
+    "parameters": 2375226
+  },
+  "provenance": {
+    "created_at": "2026-08-09T22:41:53.989625+00:00",
+    "dataset_sha256": "36d9bcc919890534b1fd1d0002bf75bd5274c6ce49ade1a22bc5ad73e06d4225",
+    "initialization": "architecture-only-random-seeded",
+    "seed": 42,
+    "source_repository": "Brilhante29/yolo-training-pipeline"
+  },
+  "schema_version": 1,
+  "task": "detection"
+}
