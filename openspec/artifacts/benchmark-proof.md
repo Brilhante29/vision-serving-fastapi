@@ -7,6 +7,6 @@
 - Model: `models/best.pt`, verified against `models/model-manifest.json` before load.
 - Raw result: `benchmarks/results/benchmark.json`.
 - Publication result: `benchmarks/publication/vision-serving-v2.json`.
-- Measured baseline: `45.553 req/s`, p95 `28.662 ms`, 20 successes and zero errors.
+- Measured baseline: `39.200 req/s`, p95 `27.343 ms`, 20 successes and zero errors.
 
 The benchmark fails on HTTP errors, changing model identity or invalid response content.

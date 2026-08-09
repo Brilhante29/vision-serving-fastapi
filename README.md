@@ -1,6 +1,6 @@
 # #7 vision-serving-fastapi
 
-**Measured baseline:** `45.553 req/s` with p95 `28.662 ms` across `20` successful HTTP requests at concurrency `1` on CPU.
+**Measured baseline:** `39.200 req/s` with p95 `27.343 ms` across `20` successful HTTP requests at concurrency `1` on CPU.
 
 **Proves:** a FastAPI service loads and verifies a real YOLO26n checkpoint produced by `yolo-training-pipeline`, decodes PNG input, executes Ultralytics inference, exposes Prometheus metrics, and reports reproducible HTTP throughput.
 
@@ -8,8 +8,8 @@
 
 | Measure | Result |
 |---|---:|
-| Throughput | `45.553 req/s` |
-| HTTP p95 latency | `28.662 ms` |
+| Throughput | `39.200 req/s` |
+| HTTP p95 latency | `27.343 ms` |
 | Requests / errors | `20 / 0` |
 | Warmup / concurrency | `3 / 1` |
 | Checkpoint | `5,333,317 bytes` |

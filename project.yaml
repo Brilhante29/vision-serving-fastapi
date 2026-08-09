@@ -8,7 +8,7 @@ program:
     - checkpoint SHA-256 contract
     - warmed per-image inference protocol
     - HTTP throughput and p95 benchmark
-status: benchmarked
+status: published
 claim: Loads a provenance-checked YOLO checkpoint and measures real FastAPI inference throughput without network or credentials.
 stack:
   - python-3.12.13
@@ -78,7 +78,7 @@ benchmark:
   primary_metric: throughput_rps
   unit: req/s
   command: docker run --rm --network none vision-serving-fastapi benchmark --num-requests 20 --concurrency 1 --warmup-requests 3 --output /tmp/benchmark.json
-  result_path: benchmarks/results/benchmark.json
+  result_path: benchmarks/publication/vision-serving-v2.json
   evidence_status: current
 release:
   docker: docker run --rm -p 8000:8000 vision-serving-fastapi

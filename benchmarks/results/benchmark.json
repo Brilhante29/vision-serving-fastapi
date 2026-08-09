@@ -1,5 +1,5 @@
 {
-  "command": "/usr/local/lib/python3.12/site-packages/vision_serving/__main__.py benchmark --num-requests 20 --concurrency 1 --warmup-requests 3 --output /app/benchmark.json",
+  "command": "/usr/local/lib/python3.12/site-packages/vision_serving/__main__.py benchmark --num-requests 20 --concurrency 1 --warmup-requests 3 --output /tmp/benchmark.json",
   "environment": {
     "machine": "x86_64",
     "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
@@ -11,40 +11,40 @@
   "project": "vision-serving-fastapi",
   "repeat": 1,
   "samples": [
-    45.553395
+    39.200466
   ],
   "summary": {
     "concurrency": 1,
-    "duration_seconds": 0.439045,
+    "duration_seconds": 0.510198,
     "errors": 0,
     "latency_samples_ms": [
-      20.867471,
-      21.212045,
-      20.101971,
-      20.385425,
-      22.713208,
-      22.177363,
-      22.315591,
-      20.882629,
-      21.955621,
-      21.087008,
-      19.901761,
-      21.075463,
-      25.801128,
-      28.856122,
-      28.662271,
-      20.155825,
-      21.371979,
-      21.10928,
-      19.134686,
-      18.531553
+      26.735523,
+      24.946614,
+      26.781133,
+      30.308662,
+      27.112068,
+      26.079435,
+      27.342735,
+      24.892157,
+      26.398988,
+      26.635325,
+      25.948415,
+      26.368537,
+      24.800289,
+      23.279255,
+      24.466694,
+      22.090864,
+      24.411365,
+      23.597435,
+      24.159938,
+      23.221291
     ],
     "model_sha256": "41598b005401dab39969719bf0678b55415121911fa72c110b21b75bab9c2e96",
-    "p95_latency_ms": 28.662271,
+    "p95_latency_ms": 27.342735,
     "total_requests": 20,
     "warmup_requests": 3
   },
-  "timestamp": "2026-08-09T22:49:10.353027Z",
+  "timestamp": "2026-08-09T23:20:26.004687Z",
   "unit": "req/s",
-  "value": 45.553395
+  "value": 39.200466
 }

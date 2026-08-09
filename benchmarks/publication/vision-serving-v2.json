@@ -1,0 +1,79 @@
+{
+  "benchmark_id": "yolo-http-serving-v1",
+  "comparability_key": "vision-serving:yolo26n:cpu:http:20x1",
+  "environment": {
+    "architecture": "amd64",
+    "hardware_class": "docker-desktop-cpu",
+    "runtime": "python-3.12.13+ultralytics-8.4.96-cpu"
+  },
+  "execution": {
+    "command": "docker run --name pub_vision_d630c38 --network none vision-serving-fastapi:source-d630c38 benchmark --num-requests 20 --concurrency 1 --warmup-requests 3 --output /tmp/benchmark.json",
+    "duration_seconds": 6.612677,
+    "exit_code": 0,
+    "repeat": 1,
+    "started_at": "2026-08-09T23:20:20.390398Z"
+  },
+  "metrics": [
+    {
+      "direction": "higher_is_better",
+      "failures": 0,
+      "name": "throughput_rps",
+      "samples": [
+        39.200466
+      ],
+      "summary": {
+        "concurrency": 1,
+        "duration_seconds": 0.510198,
+        "errors": 0,
+        "latency_samples_ms": [
+          26.735523,
+          24.946614,
+          26.781133,
+          30.308662,
+          27.112068,
+          26.079435,
+          27.342735,
+          24.892157,
+          26.398988,
+          26.635325,
+          25.948415,
+          26.368537,
+          24.800289,
+          23.279255,
+          24.466694,
+          22.090864,
+          24.411365,
+          23.597435,
+          24.159938,
+          23.221291
+        ],
+        "model_sha256": "41598b005401dab39969719bf0678b55415121911fa72c110b21b75bab9c2e96",
+        "p95_latency_ms": 27.342735,
+        "total_requests": 20,
+        "warmup_requests": 3
+      },
+      "unit": "req/s",
+      "value": 39.200466
+    }
+  ],
+  "project": "vision-serving-fastapi",
+  "provenance": {
+    "artifact_digest": "sha256:9319d8cb10c05240ec1f3b4a6c7fcf80760869974afa56e5da6e80381df3da2e",
+    "clean_tree": true,
+    "dependency_lock_digest": "sha256:62dc87dd0f7062b29c50d4f396dee3ff93dd4150e4b6d8c0ae2f587d4009d4cb",
+    "image_digest": "sha256:77664c4a738e54a7ae72936cc34d7f32681e0c5ce3433c1fdb15a4ba9bdf5974",
+    "image_ref": "vision-serving-fastapi:source-d630c38@sha256:77664c4a738e54a7ae72936cc34d7f32681e0c5ce3433c1fdb15a4ba9bdf5974",
+    "producer": "local",
+    "source_commit": "d630c381d077d2212d949c59d6343360f537fa52"
+  },
+  "run_id": "f7810223-306b-4eaa-af58-9d2a865ffd25",
+  "schema_version": 2,
+  "workload": {
+    "concurrency": 1,
+    "config_digest": "sha256:40149e2aa79d8c385399365b41cdee7193e302a40b06b9e3cb1ddaf4641f689d",
+    "fixture_digest": "sha256:e4b1ffc5d645f5db4faca67d282cb1083932054b4a6d8f04726eec50c0562517",
+    "measured_iterations": 20,
+    "version": "1.0.0",
+    "warmup_iterations": 3
+  }
+}

@@ -12,5 +12,5 @@
   "warmup_iterations": 3,
   "concurrency": 1,
   "comparability_key": "vision-serving:yolo26n:cpu:http:20x1",
-  "readme_values": ["45.553", "28.662", "41598b005401"]
+  "readme_values": ["39.200", "27.343", "41598b005401"]
 }
